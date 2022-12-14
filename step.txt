@@ -1,0 +1,6 @@
+1.拉取分支
+2.直接新建文件
+3.hexo g -d会推送到master
+4.push hexo
+npm install hexo-deployer-git --save
+npm install hexo-symbols-count-time
