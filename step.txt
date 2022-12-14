@@ -4,3 +4,177 @@
 4.push hexo
 npm install hexo-deployer-git --save
 npm install hexo-symbols-count-time
+npm install hexo-asset-image --save
+
+========教程=========
+站点配置文件_config.yml在Hexo文件夹下。在站点配置里注意以下几点：
+
+1. url:添加自己的博客网址https://satparamita.github.io/paramita/。如果买了域名并且能使用，则改成新域名url: https://satparamita.top。
+
+2. language:，选择对应的语言，有的主题是zh-CN，也有的是zh-Hans。在theme\next\language里查看。
+
+3. description:主要用于告诉搜索引擎一个关于站点的简单描述，建议在其中包含您网站的关键词。
+
+4. order_by: -date文章排序默认是按照日期，也可以改成按照更新日期排序，即order_by: -updated。 {% endnote %}
+
+next主题安装
+next主题地址。
+
+1. 在Hexo文件夹里右键Git Bash Here，输入命令： git clone https://github.com/next-theme/hexo-theme-next themes/next
+
+主题会下载到themes目录下的next文件夹。 如果下载失败就多试几次，实在下载不了就进入Next官网，找到压缩包Source code(zip)，下载后解压，更名为next，粘贴到themes目录下。
+
+2. 打开站点配置文件_config.yml ，找到关键字 theme，修改参数为：theme：next，注意冒号后面有一个空格！ 建议将主题配置文件_config.yml重命名为_config.next.yml，然后剪切到Hexo文件夹下，方便以后更新主题。
+
+3. 当前使用的是最新版本next8.7.1。每个月都会发布新版本，请在更新前阅读更新说明。可以通过如下命令更新： npm install hexo-theme-next@latest
+
+文章里插入图片和其它文件
+1. 安装：npm install hexo-asset-image --save
+
+2. 打开站点配置文件，设置：post_asset_folder: true
+
+3. 在hexo/source/_posts目录下右键新建test.md文件，并新建名为file的文件夹，用于存放文章里需要插入的图片和其它文件。
+
+4. 使用![title](./file/图片名.jpg "描述")添加本地图片。同理，可插入其它格式的文件，比如txt、pdf、py、md、zip等，txt、pdf文件可以在网页中直接打开查看，其它格式的文件会在点击后下载到本地。
+
+Emoji表情
+在编辑器中输入:smile:可能没有:smile:表情出现。Hexo默认是采用hexo-renderer-marked渲染器，不支持插件扩展。支持插件扩展的是 hexo-renderer-markdown-it，可以使用markwon-it-emoji插件来支持emoji。
+
+1. 卸载默认的marked渲染器，安装markdown-it渲染器： npm un hexo-renderer-marked --save npm i hexo-renderer-markdown-it --save
+
+2. 安装markdown-it-emoji插件：npm install markdown-it-emoji --save
+
+PS:安装时可能会显示一堆信息，fsevent是mac osx系统的，在win或者Linux下使用会有警告，直接忽略，其实已经安装成功了。其它插件安装时也一样。
+
+全站搜索
+参考hexo-generator-searchdb。
+
+1. 安装：npm install hexo-generator-searchdb 2. 在站点设置里添加以下设置项：
+
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
+在主题设置里找到local_search，修改成如下：
+local_search:
+  enable: true
+  #auto, trigger search by changing input. manual, by pressing enter key or search button.
+  trigger: auto
+  top_n_per_article: -1 # Show top n results per article, show all results by -1
+  unescape: false 
+  preload: false
+邮件功能
+在侧栏social添加给我发邮件，在主题配置里修改：
+social:
+  邮件: https://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=1610202621@qq.com || fa fa-envelope
+在友情链接或文章中加入给我发邮件： [1610202621@qq.com](https://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=1610202621@qq.com) 效果是1610202621@qq.com
+PS: social里的fa fa-envelope会显示表示邮件的小图标，更多小图标请查看icon。
+
+持久化连接
+文章默认的链接是http://url/2020/02/10/hello-world这种类型，由年/月/日/标题组成。如果文章里调整过日期，链接名也会变化。而且如果标题是中文或存在特殊符号，链接可能就有问题。因此建议使用永久链接，即使更改了日期也能打开原来的链接。
+
+1. 安装：npm install hexo-abbrlink --save。
+
+2. 在站点配置里修改：
+
+permalink: p/:abbrlink.html
+abbrlink:
+  alg: crc32  # 算法：crc16(default) and crc32
+  rep: hex    # 进制：dec(default) and hex
+统计文章字数与阅读时间
+参考hexo-word-counter。
+
+1. 安装：npm install hexo-word-counter
+
+2. 在主题配置_config.yml里添加：
+
+symbols_count_time:
+  separated_meta: true
+  item_text_total: true
+设置文章置顶
+1. 先卸载后安装：
+
+npm uninstall hexo-generator-index --save
+
+npm install hexo-generator-index-pin-top --save
+
+在文章开头添加top: true，或者top: 2，数字越大，置顶越靠前。
+---
+title: 
+tags: 
+comments: true
+top: 100
+---
+数学公式编辑
+1. 先卸载后安装：
+
+npm un hexo-renderer-marked --save
+
+npm i hexo-renderer-markdown-it-plus --save
+
+2. 启用katex:
+
+math:
+  every_page: false
+  mathjax:
+    enable: false
+    tags: none # Available values: none | ams | all
+  katex:
+    enable: true
+    copy_tex: true
+在github里不支持katex的某些功能，所以同时启用mathjax。在有数学公式的文章开头添加：
+
+<head>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            inlineMath: [['$','$']]
+            }
+        });
+    </script>
+</head>
+添加流程图支持
+1. 安装：
+
+npm i hexo-filter-mermaid-diagrams
+
+npm i --save hexo-filter-sequence
+
+2. 在站点设置里添加：
+
+mermaid: #流程图
+  enable: true
+  # Available themes: default | dark | forest | neutral
+  theme: default
+安装烟花特效
+点击鼠标时显示烟花特效，安装： npm install next-theme/hexo-next-fireworks
+
+在文章中浏览pdf文件
+参考theme-next-pdf。
+
+1. 安装：git clone https://github.com/next-theme/theme-next-pdf source/lib/pdf。文件会下载至hexo/source/lib文件夹里。
+
+2. 修改主题配置:
+
+pdf:
+  enable: true
+  # Default height
+  height: 500px
+在站点配置里添加：
+skip_render:
+  - lib/**/*
+4. 使用方法：{% pdf /path/to/your/file.pdf %}
+
+例如：{% pdf ./test/1.pdf %}。 pdf文件存放在与test.md文件同名的test文件夹里。也可以添加外部pdf链接。
+
+5. 更新方法： cd hexo/source/lib/pdf git pull
+
+文章封面
+安装：npm install --save hexo-less
+
+在文章中添加<!-- less -->，<!-- less -->前面的内容会显示在封面，打开文章后不会再显示，直接显示<!-- less -->后面的内容。
+
+区别于<!-- more -->，<!-- more -->前后的内容全部会显示在文章里。
